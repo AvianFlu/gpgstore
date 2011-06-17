@@ -1,0 +1,89 @@
+#!/usr/bin/env node
+
+var argv = require('optimist').argv,
+    fs = require('fs'),
+    childProcess = require('child_process'),
+    async = require('async');
+
+
+if (!argv._[0]) {
+  console.log('Usage: gpgstore [master file]');
+  process.exit(1);
+}
+else {
+  getMaster();
+}
+
+function getMaster() {
+  var tiers,
+      file,
+      tierCount,
+      keyID;
+  fs.readFile(argv._[0], function (err, data) {
+    if (err) { console.log(err); }
+    try {
+      tiers = JSON.parse(data);
+    }
+    catch(err) {
+      console.log('Sorry, error parsing your JSON.');
+      console.log(err.stack);
+      process.exit(1);
+    }
+    tierCount = tiers.length;
+    for (var i = 0; i < tierCount; i++) {
+      async.series( [
+        function (callback) {
+          file = 'tier' + i.toString();
+          keyID = tiers[0].keyID;
+          callback(null, file, keyID);
+        },
+        function (callback) {
+          fs.writeFile(file, JSON.stringify(tiers), function (err) {
+            if (err) { console.log(err); }
+            callback(null, err);
+          });
+        },
+      ], callback);
+      function callback (err, results) {
+        if (err) { console.log(err); }
+        spawnArgs = ['--encrypt', '-r', results[0][1], '-o', results[0][0] + '.gpg', results[0][0]];
+        console.log(spawnArgs.join(' '));
+        encrypt(spawnArgs);
+      }
+      tiers.shift();
+    }
+  });
+}
+
+//The only encryption currently supported is file-to-file.  
+function encrypt(spawnArgs) {
+  var gpg = childProcess.spawn('gpg', spawnArgs);
+  gpg.stderr.on('data', function (data) {
+    console.log('stderr: '+data);
+  });
+  gpg.stdout.on('data', function (data) {
+    console.log('stdout: '+data);
+  });
+  gpg.on('exit', function (code) {
+    if (code > 0) { console.log('gpg exited with status code: ', code); }
+    fs.unlink(spawnArgs[5], function (err) {
+      if (err) { console.log(err); }
+    });
+  });
+}
+
+//Decrypt, either file-to-buffer or file-to-file.
+function decrypt() {
+  if (typeof options.dest === 'undefined') {
+    gpg.decryptFile(options.source, function (err, result) {
+      if (err) { console.log(err); }
+      console.log(result);
+    });
+  }
+  else {
+    gpg.decryptToFile(options, function (err) {
+      if (err) { console.log(err); }
+    });
+  }
+}
+
