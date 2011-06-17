@@ -3,15 +3,19 @@
 var argv = require('optimist').argv,
     fs = require('fs'),
     childProcess = require('child_process'),
-    async = require('async');
+    async = require('async'),
+    path = require('path');
 
 
-if (!argv._[0]) {
-  console.log('Usage: gpgstore [master file]');
+if (argv.h) {
+  console.log('Usage:');
+  console.log('gpgstore [JSON file to encrypt]');
+  console.log('gpgstore -d [decrypt file] -p [passphrase]');
+  console.log('gpgstore -h for this help');
   process.exit(1);
 }
 else if (argv.d) {
-  decrypt();
+  decrypt(argv.d);
 }
 else {
   makeTiers();
@@ -43,7 +47,7 @@ function makeTiers() {
         function (callback) {
           fs.writeFile(file, JSON.stringify(tiers), function (err) {
             if (err) { console.log(err); }
-            callback(null, err);
+            callback(null);
           });
         },
       ], callback);
@@ -76,7 +80,16 @@ function encrypt(spawnArgs) {
 }
 
 //Decrypt a local gpg-encrypted file for your viewing pleasure.  
-function decrypt() {
-  //TODO:  Make this function properly.  
+function decrypt(file) {
+  var gpg = childProcess.spawn('gpg', ['--decrypt', file]);
+  gpg.stderr.on('data', function (data) {
+    console.log('stderr: '+data);
+  });
+  gpg.stdout.on('data', function (data) {
+    console.log(data.toString());
+  });
+  gpg.on('exit', function (code) {
+    if (code > 0) { console.log('gpg exited with status code: ', code); }
+  });
 }
 
