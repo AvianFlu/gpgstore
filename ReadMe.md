@@ -1,10 +1,24 @@
 # gpgstore: experimental credential storage utility
 
-## v0.0.1 - Experimental
+## v0.0.2 - Experimental
 
-**gpgstore** is a utility to help securely store lists of credentials.  Given a JSON file with the appropriate format (see `test.json`), `gpgstore` will make tiered, encrypted files with the specified `gpg` keys.  
+**gpgstore** is a utility to help securely store lists of credentials in separately encrypted 'tiers'.  The first tier has access to all the data - each subsequent tier loses a level of access, and each tier's file can be encrypted with a separate `gpg` key.
 
-## Caveats
+## Installation
 
-- `gpg` must be installed and available on your `PATH`.  
-- If bad things happen to important data because of this experimental tool, it isn't my fault.  
+`gpgstore` is in an early experimental state, but is currently functioning and usable.  The user must install [GnuPG](http://www.gnupg.org/download/) and make sure it is available on their `PATH` before `gpgstore` can function properly.  
+
+`gpgstore` can be installed via GitHub: 
+
+     git clone git://github.com/AvianFlu/gpgstore.git
+
+## Usage
+
+      avian@avian:~/gpgstore$ ./gpgstore
+      Usage:
+      gpgstore [JSON file to encrypt]
+      gpgstore -d [decrypt file]
+
+`gpgstore` can currently do two things: encryption from the master JSON to tiered .gpg files, and decryption of a given .gpg back to the screen.  
+
+**Please Note** that you may need to enter the password for your secret key in order to use it for decryption.  
