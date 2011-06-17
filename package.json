@@ -1,7 +1,7 @@
 {
     "name": "gpgstore",
     "description": "Experimental sensitive data storage tool.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": "AvianFlu",
     "repository": {
         "type": "git", 
