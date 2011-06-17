@@ -1,0 +1,26 @@
+[
+  {
+    "keyID" : "B7291FDC",
+    "bankaccount": {"name": "one", "password": "fourseventeen"},
+    "production": {"name": "two", "password": "onethirtyfour"},
+    "masterdata": {"name": "three", "password": "ninefiftyone"}
+  },
+  {
+    "keyID" : "55E829F4",
+    "staging": {"name": "four", "password": "nineseventeen"},
+    "otherserver": {"name": "five", "password": "sixthirtyfour"},
+    "database": {"name": "six", "password": "threefiftyone"}
+  },
+  {
+    "keyID" : "B69532B6",
+    "testing": {"name": "seven", "password": "seventhirteen"},
+    "blog": {"name": "eight", "password": "thirtyfourfifty"},
+    "nodedocs": {"name": "nine", "password": "fiftyandone"}
+  },
+  {
+    "keyID" : "3E25AB7F",
+    "irc": {"name": "ten", "password": "seventeenseventysix"},
+    "trivia": {"name": "two", "password": "thirtyfourforty"},
+    "liquor": {"name": "three", "password": "onefiftyone"}
+  }
+]
