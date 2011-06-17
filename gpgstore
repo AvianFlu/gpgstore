@@ -10,11 +10,14 @@ if (!argv._[0]) {
   console.log('Usage: gpgstore [master file]');
   process.exit(1);
 }
+else if (argv.d) {
+  decrypt();
+}
 else {
-  getMaster();
+  makeTiers();
 }
 
-function getMaster() {
+function makeTiers() {
   var tiers,
       file,
       tierCount,
@@ -72,18 +75,8 @@ function encrypt(spawnArgs) {
   });
 }
 
-//Decrypt, either file-to-buffer or file-to-file.
+//Decrypt a local gpg-encrypted file for your viewing pleasure.  
 function decrypt() {
-  if (typeof options.dest === 'undefined') {
-    gpg.decryptFile(options.source, function (err, result) {
-      if (err) { console.log(err); }
-      console.log(result);
-    });
-  }
-  else {
-    gpg.decryptToFile(options, function (err) {
-      if (err) { console.log(err); }
-    });
-  }
+  //TODO:  Make this function properly.  
 }
 
