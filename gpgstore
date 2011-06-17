@@ -7,11 +7,10 @@ var argv = require('optimist').argv,
     path = require('path');
 
 
-if (argv.h) {
+if ((!argv._[0])&&(!argv.d)) {
   console.log('Usage:');
   console.log('gpgstore [JSON file to encrypt]');
-  console.log('gpgstore -d [decrypt file] -p [passphrase]');
-  console.log('gpgstore -h for this help');
+  console.log('gpgstore -d [decrypt file]');
   process.exit(1);
 }
 else if (argv.d) {
