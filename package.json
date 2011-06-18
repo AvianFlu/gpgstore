@@ -1,14 +1,14 @@
 {
     "name": "gpgstore",
     "description": "Experimental sensitive data storage tool.",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "author": "AvianFlu",
     "repository": {
         "type": "git", 
         "url": "http://github.com/AvianFlu/gpgstore.git" 
     },
     "bin": {
-      "gpgstore": "./gpgstore"
+      "gpgstore": "bin/gpgstore"
     },
     "dependencies": {
        "async": ">=0.1.9",

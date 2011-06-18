@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+
+var util = require('util'),
+    argv = require('optimist').argv,
+    gpgstore = require('../lib/gpgstore');
+
+var help = [
+    'usage: gpgstore [command] [file]',
+    '',
+    'commands:',
+    '  encrypt [master file] - splits up a master JSON file into encrypted tiers.',
+    '  decrypt [.gpg file] - decrypts the specified gpg-encrypted file to stdout.',
+    '  help - show this help and exit.',
+    ''
+].join('\n');
+
+if (argv.h || argv.help) {
+  return util.puts(help);
+}
+
+
+var command = argv._;
+
+
+
+switch (argv._[0]) {
+  case 'encrypt':
+    gpgstore.makeTiers(argv._[1]);
+    break;
+  case 'decrypt':
+    gpgstore.decrypt(argv._[1]);
+    break;
+  default:
+    return util.puts(help);
+}
