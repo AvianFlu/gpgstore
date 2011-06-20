@@ -43,7 +43,10 @@
      commands while inside a tier:
        add  <name>    - adds a new credentials object
        rm   <name>    - removes a credentials object
+       list <name>    - list all credential objects ( dont show sensitive data )
        view <name>    - view sensitive data
        edit <name>    - edits a credentials object
+       exit           - exits
+       use  <tier>    - switches context to new tier
     
      
