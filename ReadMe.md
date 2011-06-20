@@ -25,3 +25,25 @@
 `gpgstore` can currently do two things: encryption from the master JSON to tiered .gpg files, and decryption of a given .gpg back to the screen.  
 
 **Please Note** that you may need to enter the password for your secret key in order to use it for decryption.  
+
+
+## Todo
+
+     commands:
+     
+       ( each command will prompt user for additional input of selecting tier )
+     
+       list     - lists all password tiers
+       use      - start using a password tier
+       add      - add a new password tier
+       rm       - remove a password tier
+       
+     ( while using a tier, gpgstore enters and holds a prompt )
+     
+     commands while inside a tier:
+       add  <name>    - adds a new credentials object
+       rm   <name>    - removes a credentials object
+       view <name>    - view sensitive data
+       edit <name>    - edits a credentials object
+    
+     
