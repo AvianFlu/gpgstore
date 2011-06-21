@@ -2,33 +2,90 @@
 
 var util = require('util'),
     argv = require('optimist').argv,
+    cliff = require('cliff'),
     gpgstore = require('../lib/gpgstore');
 
 var help = [
-    'usage: gpgstore [command] [file]',
+    'usage: gpgstore [command] [options]',
     '',
     'commands:',
-    '  encrypt [master file] - splits up a master JSON file into encrypted tiers.',
-    '  decrypt [.gpg file] - decrypts the specified gpg-encrypted file to stdout.',
+    '  new [master file] - splits up a master JSON file into encrypted tiers.',
+    '  add [new tier file] - encrypts the provided file and adds it as the lowest tier.',
+    '  list - list all locally available tiers.',
+    '  list keys - list GnuPG keys currently available.',
+    '  decrypt [file] - decrypts the provided file (will be replaced).',
+    '  rm [tier] - deletes the given tier.',
+    '  rm all - deletes all tiers.',
     '  help - show this help and exit.',
     ''
 ].join('\n');
+
+gpgstore.start();
 
 if (argv.h || argv.help) {
   return util.puts(help);
 }
 
 
-var command = argv._;
-
-
 
 switch (argv._[0]) {
-  case 'encrypt':
-    gpgstore.makeTiers(argv._[1]);
+  case 'new':
+    gpgstore.newMaster(argv._[1], function (err, master) {
+      if (err) { 
+        console.log(err);
+        process.exit(1);
+      }
+      gpgstore.makeTiers(master, function (err) {
+        if (err) { console.log(err); }
+      });
+    });
+    break;
+  case 'add':
+    if (!argv._[1]) {
+      console.log('Missing argument: which file?');
+      process.exit(1);
+    }
+    gpgstore.add(argv._[1], function (err) {
+      if (err) { console.log(err); }
+    });
     break;
   case 'decrypt':
-    gpgstore.decrypt(argv._[1]);
+    gpgstore._decrypt(argv._[1], argv.p || '', function (err, result) {
+      if (err) {
+        console.log(err);
+        process.exit(1);
+      }
+      console.log(cliff.inspect(result));
+    });
+    break;
+  case 'list':
+    if (argv._[1] === 'keys') { 
+      gpgstore.listKeys(); 
+    }
+    else {
+      gpgstore.listTiers( function (err, tiers) {
+        if (err) {
+          util.puts(err);
+          process.exit(1);
+        }
+        util.puts(tiers.sort().join('\n').replace(/\.gpg/g, ''));
+      });
+    }
+    break;
+  case 'rm':
+    if (!argv._[1]) {
+      console.log('Missing argument: which tier?');
+      process.exit(1);
+    }
+    else if (argv._[1] === 'all') {
+      gpgstore.removeAll(function (err) {
+        if (err) { console.log(err); }
+      });
+    }
+    gpgstore.removeTier(argv._[1], function (err, result) {
+      if (err) { console.log(err); }
+      console.log(result);
+    });
     break;
   default:
     return util.puts(help);
