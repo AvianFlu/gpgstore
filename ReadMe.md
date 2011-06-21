@@ -1,6 +1,6 @@
 # gpgstore: experimental credential storage utility
 
-## v0.0.3 - Experimental
+## v0.1.0 - Experimental
 
 **gpgstore** is a utility to help securely store lists of credentials in separately encrypted 'tiers'.  The first tier has access to all the data - each subsequent tier loses a level of access, and each tier's file can be encrypted with a separate `gpg` key.
 
@@ -14,30 +14,26 @@
 
 ## Usage
 
-     usage: gpgstore [command] [file]
+     usage: gpgstore [command] [options]
 
      commands:
-       encrypt [master file] - splits up a master JSON file into encrypted tiers.
-       decrypt [.gpg file] - decrypts the specified gpg-encrypted file to stdout.
+       new [master file] - splits up a master JSON file into encrypted tiers.
+       add [new tier file] - encrypts the provided file and adds it as the lowest tier.
+       list - list all locally available tiers.
+       list keys - list GnuPG keys currently available.
+       decrypt [file] - decrypts the provided file (will be replaced).
+       rm [tier] - deletes the given tier.
+       rm all - deletes all tiers.
        help - show this help and exit.
 
 
-`gpgstore` can currently do two things: encryption from the master JSON to tiered .gpg files, and decryption of a given .gpg back to the screen.  
 
 **Please Note** that you may need to enter the password for your secret key in order to use it for decryption.  
 
 
 ## Todo
 
-     commands:
-     
-       ( each command will prompt user for additional input of selecting tier )
-     
-       list     - lists all password tiers
-       use      - start using a password tier
-       add      - add a new password tier
-       rm       - remove a password tier
-       
+     Implement 'use [tier]'
      ( while using a tier, gpgstore enters and holds a prompt )
      
      commands while inside a tier:
