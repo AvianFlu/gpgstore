@@ -26,17 +26,15 @@ if (argv.h || argv.help) {
   return util.puts(help);
 }
 
-
-
 switch (argv._[0]) {
   case 'new':
     gpgstore.newMaster(argv._[1], function (err, master) {
       if (err) { 
-        console.log(err);
+        console.log(err.stack.red);
         process.exit(1);
       }
       gpgstore.makeTiers(master, function (err) {
-        if (err) { console.log(err); }
+        if (err) { console.log(err.stack.red); }
       });
     });
     break;
@@ -46,13 +44,13 @@ switch (argv._[0]) {
       process.exit(1);
     }
     gpgstore.add(argv._[1], function (err) {
-      if (err) { console.log(err); }
+      if (err) { console.log(err.stack.red); }
     });
     break;
   case 'decrypt':
     gpgstore._decrypt(argv._[1], argv.p || '', function (err, result) {
       if (err) {
-        console.log(err);
+        console.log(err.stack.red);
         process.exit(1);
       }
       console.log(cliff.inspect(result));
@@ -79,12 +77,15 @@ switch (argv._[0]) {
     }
     else if (argv._[1] === 'all') {
       gpgstore.removeAll(function (err) {
-        if (err) { console.log(err); }
+        if (err) { console.log(err.stack.red); }
       });
     }
     gpgstore.removeTier(argv._[1], function (err, result) {
-      if (err) { console.log(err); }
-      console.log(result);
+      if (err) { 
+        console.log(err.stack.red); 
+        process.exit(1);
+      }
+      console.log(argv._[1], 'has been successfully removed, and all tiers regenerated.'.cyan);
     });
     break;
   default:
