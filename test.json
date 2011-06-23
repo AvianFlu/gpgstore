@@ -1,23 +1,27 @@
 [
   {
+    "tierName" : "tier1",
     "keyID" : "B7291FDC",
     "bankaccount": {"name": "one", "password": "fourseventeen"},
     "production": {"name": "two", "password": "onethirtyfour"},
     "masterdata": {"name": "three", "password": "ninefiftyone"}
   },
   {
+    "tierName" : "tier2",
     "keyID" : "55E829F4",
     "staging": {"name": "four", "password": "nineseventeen"},
     "otherserver": {"name": "five", "password": "sixthirtyfour"},
     "database": {"name": "six", "password": "threefiftyone"}
   },
   {
+    "tierName" : "tier3",
     "keyID" : "B69532B6",
     "testing": {"name": "seven", "password": "seventhirteen"},
     "blog": {"name": "eight", "password": "thirtyfourfifty"},
     "nodedocs": {"name": "nine", "password": "fiftyandone"}
   },
   {
+    "tierName" : "tier4",
     "keyID" : "3E25AB7F",
     "irc": {"name": "ten", "password": "seventeenseventysix"},
     "trivia": {"name": "two", "password": "thirtyfourforty"},
