@@ -1,6 +1,6 @@
 [
   {
-    "tierName" : "tier1",
+    "tierName" : "master",
     "keyID" : "B7291FDC",
     "bankaccount": {"name": "one", "password": "fourseventeen"},
     "production": {"name": "two", "password": "onethirtyfour"},

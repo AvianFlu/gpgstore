@@ -13,7 +13,7 @@ var help = [
     '  add [new tier file] - encrypts the provided file and adds it as the lowest tier.',
     '  list - list all locally available tiers.',
     '  list keys - list GnuPG keys currently available.',
-    '  decrypt [file] - decrypts the provided file (will be replaced).',
+    '  view [file] - decrypts the provided file and prints it for the user.',
     '  rm [tier] - deletes the given tier.',
     '  rm all - deletes all tiers.',
     '  help - show this help and exit.',
@@ -47,8 +47,8 @@ switch (argv._[0]) {
       if (err) { console.log(err.stack.red); }
     });
     break;
-  case 'decrypt':
-    gpgstore._decrypt(argv._[1], argv.p || '', function (err, result) {
+  case 'view':
+    gpgstore.view(argv._[1], function (err, result) {
       if (err) {
         console.log(err.stack.red);
         process.exit(1);
@@ -80,12 +80,34 @@ switch (argv._[0]) {
         if (err) { console.log(err.stack.red); }
       });
     }
-    gpgstore.removeTier(argv._[1], function (err, result) {
+    else {
+      gpgstore.removeTier(argv._[1], function (err, result) {
+        if (err) { 
+          console.log(err.stack.red); 
+          process.exit(1);
+        }
+        console.log(argv._[1], 'has been successfully removed, and all tiers regenerated.'.cyan);
+      });
+    }
+    break;
+  case 'use':
+    if (!argv._[1]) {
+      console.log('Missing argument: which tier?');
+      process.exit(1);
+    }
+    //Call gpgstore.view here, send in the actual object - no sense letting you see it if you can't decrypt it!
+    (/^\w+\.gpg$/).test(argv._[1]) ? argv._[1] : argv._[1] += '.gpg'; 
+    gpgstore.view(argv._[1], function (err, result) {
       if (err) { 
         console.log(err.stack.red); 
         process.exit(1);
       }
-      console.log(argv._[1], 'has been successfully removed, and all tiers regenerated.'.cyan);
+      gpgstore.use(result, function (err) {
+        if (err) { 
+          console.log(err.stack.red); 
+          process.exit(1);
+        }
+      });
     });
     break;
   default:
