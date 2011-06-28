@@ -36,3 +36,12 @@
        exit           - takes you back to your shell
     
      
+## Using the test data
+
+A file of test data, `test.json`, has been provided.  Five public-private key pairs have also been provided - these match those specified in `test.json`.  To 
+use the provided key pairs, run the following in your `gpgstore` directory:
+
+     gpg --import testpublic.key
+     gpg --import-secret-keys testprivate.key
+
+In closing, I remind all readers that private keys posted on github are not to be used for serious applications. 
