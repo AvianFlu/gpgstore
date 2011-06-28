@@ -1,6 +1,6 @@
 # gpgstore: experimental credential storage utility
 
-## v0.2.0 - Experimental
+## v0.2.1 - Experimental
 
 **gpgstore** is a utility to help securely store lists of credentials in separately encrypted 'tiers'.  The first tier has access to all the data - each subsequent tier loses a level of access, and each tier's file can be encrypted with a separate `gpg` key.
 
@@ -32,6 +32,7 @@
        list <name>    - lists all credential objects ( doesn't show sensitive data )
        view <name>    - view sensitive data
        use  <tier>    - switches context to new tier
+       help           - displays list of commands
        exit           - takes you back to your shell
     
      
