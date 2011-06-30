@@ -1,7 +1,7 @@
 {
     "name": "gpgstore",
     "description": "Experimental sensitive data storage tool.",
-    "version": "0.2.1",
+    "version": "0.3.0",
     "author": "AvianFlu",
     "repository": {
         "type": "git", 
@@ -14,7 +14,8 @@
        "async": ">=0.1.9",
        "optimist": ">=0.2.4",
        "colors": ">=0.5.0",
-       "cliff": ">=0.1.0"
+       "cliff": ">=0.1.0",
+       "prompt": "0.1.x"
      }, 
     "engine": [
         "node >=0.4.0" 
