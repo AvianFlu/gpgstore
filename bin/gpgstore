@@ -14,6 +14,7 @@ var help = [
     '  list - list all locally available tiers.',
     '  list keys - list GnuPG keys currently available.',
     '  view [file] - decrypts the provided file and prints it for the user.',
+    '  use [tier] - opens a tier for viewing and editing.',
     '  rm [tier] - deletes the given tier.',
     '  rm all - deletes all tiers.',
     '  help - show this help and exit.',
@@ -95,14 +96,13 @@ switch (argv._[0]) {
       console.log('Missing argument: which tier?');
       process.exit(1);
     }
-    //Call gpgstore.view here, send in the actual object - no sense letting you see it if you can't decrypt it!
     (/^\w+\.gpg$/).test(argv._[1]) ? argv._[1] : argv._[1] += '.gpg'; 
     gpgstore.view(argv._[1], function (err, result) {
       if (err) { 
         console.log(err.stack.red); 
         process.exit(1);
       }
-      gpgstore.use(result, function (err) {
+      gpgstore.use(result, 0, function (err) {
         if (err) { 
           console.log(err.stack.red); 
           process.exit(1);
