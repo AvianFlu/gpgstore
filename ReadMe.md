@@ -44,10 +44,23 @@ Available commands while a tier file is open:
 
 ## Using the test data
 
-A file of test data, `test.json`, has been provided.  Five public-private key pairs have also been provided - these match those specified in `test.json`.  To 
-use the provided key pairs, run the following in your `gpgstore` directory:
+A file of test data, `test.json`, has been provided.  Five public-private key pairs have also been provided - these match those specified in `test.json`.  The user may either generate keys locally and change the "keyID" fields in the JSON accordingly, or use the testing keys.  
+
+To use the provided key pairs, run the following in your `gpgstore` directory:
 
      gpg --import testpublic.key
      gpg --import-secret-keys testprivate.key
+
+Once the keys are imported, it is highly recommended that they be marked as 'trusted' for ease of use.  First use:
+
+     gpg --list-keys
+
+Note the "user id" for each key - "Master Tier", "Tier Two", etc.  Now open the key editor:
+
+     gpg --edit-key "User ID"
+
+Where "User ID" is the name of each key.  When the `gpg` prompt opens, type `trust`.  Then set the trust of the key to 5.
+
+
 
 In closing, I remind all readers that private keys posted on github are not to be used for serious applications. 
